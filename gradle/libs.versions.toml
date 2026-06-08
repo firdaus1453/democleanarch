@@ -1,6 +1,5 @@
 [versions]
 agp = "9.2.0-alpha05"
-kotlin = "2.1.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -33,5 +32,5 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+# Compose Compiler plugin — harus match dengan Kotlin version di Gradle (2.3.10)
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version = "2.3.10" }
