@@ -40,26 +40,28 @@ kotlin {
     }
 }
 
+// :app — Entry point & DI wiring (Philipp Lackner style)
+// Tahu SEMUA module, tapi tidak berisi logic.
 dependencies {
-    // Feature Layered Multi Module Dependencies
-    implementation(project(":feature:auth:presentation"))
-    implementation(project(":feature:auth:domain"))
-    implementation(project(":feature:auth:data"))
-    implementation(project(":core:common"))
+    // Core
+    implementation(project(":core:domain"))
+
+    // Feature: Auth
+    implementation(project(":auth:presentation"))
+    implementation(project(":auth:domain"))
+    implementation(project(":auth:data"))
+
+    // Feature: Home
+    implementation(project(":home:presentation"))
+    implementation(project(":home:domain"))
+    implementation(project(":home:data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.material)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.material)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    debugImplementation(libs.androidx.ui.tooling)
 }

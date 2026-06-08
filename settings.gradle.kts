@@ -25,18 +25,22 @@ dependencyResolutionManagement {
 rootProject.name = "democleanarch"
 
 // ═══════════════════════════════════════════════════════════════
-// Feature Layered Base Multi Module (Philipp Lackner style)
+// Feature Layered Base Multi Module (Philipp Lackner — Runique)
 // ═══════════════════════════════════════════════════════════════
 //
-// Struktur:
-//   app/                              → Main app (orchestrator, DI wiring)
-//   feature/auth/presentation/        → Auth UI (Compose)
-//   feature/auth/domain/              → Auth business logic
-//   feature/auth/data/                → Auth data source
-//   core/common/                      → Shared utilities
+// Struktur (mengikuti github.com/philipplackner/Runique):
 //
-// Aturan:
-//   ✅ Feature module boleh depend ke :core:common
+//   :app                          → Entry point, DI wiring
+//   :core:domain                  → Shared domain (User, AppResult)
+//   :auth:domain                  → Auth business logic
+//   :auth:data                    → Auth data source
+//   :auth:presentation            → Auth UI (Compose)
+//   :home:domain                  → Home business logic
+//   :home:data                    → Home data source
+//   :home:presentation            → Home UI (Compose)
+//
+// Aturan Philipp Lackner:
+//   ✅ Feature module boleh depend ke :core:domain
 //   ✅ :data boleh depend ke :domain (implements interface)
 //   ✅ :presentation boleh depend ke :domain (uses UseCase)
 //   ❌ Feature TIDAK BOLEH depend ke feature lain langsung
@@ -46,10 +50,15 @@ rootProject.name = "democleanarch"
 
 include(":app")
 
-// Core modules
-include(":core:common")
+// Core modules (shared lintas feature)
+include(":core:domain")
 
 // Feature: Auth
-include(":feature:auth:presentation")
-include(":feature:auth:domain")
-include(":feature:auth:data")
+include(":auth:presentation")
+include(":auth:domain")
+include(":auth:data")
+
+// Feature: Home
+include(":home:presentation")
+include(":home:domain")
+include(":home:data")
