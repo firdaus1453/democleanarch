@@ -25,12 +25,20 @@ dependencyResolutionManagement {
 rootProject.name = "democleanarch"
 
 // ═══════════════════════════════════════════════════
-// Multi Module Architecture — 3 Layer
+// Multi Module Architecture — 3 Layer + App
 // ═══════════════════════════════════════════════════
-// :app     → Presentation Layer (UI, ViewModel)
-// :domain  → Domain Layer (Model, UseCase, Repository Interface)
-// :data    → Data Layer (Repository Implementation)
+// :app          → Entry Point (MainActivity, DI wiring saja)
+// :presentation → Presentation Layer (UI, ViewModel, Theme)
+// :domain       → Domain Layer (Model, UseCase, Repository Interface)
+// :data         → Data Layer (Repository Implementation)
+//
+// Dependency:
+//   :app → :presentation, :domain, :data
+//   :presentation → :domain
+//   :data → :domain
+//   :domain → (nothing)
 // ═══════════════════════════════════════════════════
 include(":app")
+include(":presentation")
 include(":domain")
 include(":data")

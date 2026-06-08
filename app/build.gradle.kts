@@ -13,7 +13,6 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,38 +40,30 @@ kotlin {
     }
 }
 
+// ═══════════════════════════════════════════════════════════
+// :app — ENTRY POINT saja (hanya MainActivity + DI wiring)
+// ═══════════════════════════════════════════════════════════
+// :app tahu semua module karena dia yang melakukan wiring.
+// Tapi TIDAK ada business logic atau UI di sini.
+//
+// Dependency graph:
+//   :app → :presentation (UI)
+//   :app → :domain       (UseCase, Model)
+//   :app → :data         (Repository impl untuk DI)
+//
+//   :presentation → :domain (uses UseCase)
+//   :data         → :domain (implements interface)
+//   :domain       → (nothing) INDEPENDENT
+// ═══════════════════════════════════════════════════════════
 dependencies {
-    // ═══════════════════════════════════════════════════
-    // Multi Module Dependencies
-    // ═══════════════════════════════════════════════════
-    // App (Presentation) bergantung ke:
-    // - :domain → untuk UseCase dan Model
-    // - :data   → untuk Repository implementation (DI wiring)
+    implementation(project(":presentation"))
     implementation(project(":domain"))
     implementation(project(":data"))
 
-    // ═══════════════════════════════════════════════════
-    // Android & Compose
-    // ═══════════════════════════════════════════════════
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
-
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
     implementation(libs.material)
 
-    // ═══════════════════════════════════════════════════
-    // Testing
-    // ═══════════════════════════════════════════════════
-    testImplementation(libs.junit)
-    testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
-    debugImplementation(libs.androidx.ui.tooling)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.material3)
 }

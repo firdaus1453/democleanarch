@@ -11,35 +11,34 @@ import id.lumut.democleanarch.presentation.LoginViewModel
 import id.lumut.democleanarch.presentation.theme.DemoCleanArchTheme
 
 /**
- * MainActivity — titik masuk aplikasi (Multi Module version).
+ * MainActivity — ENTRY POINT saja.
  *
- * Di sini kita melakukan wiring/DI:
- * - AuthRepositoryImpl dari :data module
- * - LoginUseCase dari :domain module
- * - LoginViewModel dari :app module (presentation)
+ * :app module HANYA berisi:
+ * - MainActivity (DI wiring)
+ * - AndroidManifest.xml
+ * - Resources (icon, theme, strings)
  *
- * HANYA di sini (:app) kita boleh tahu tentang :data module.
- * ViewModel dan UseCase TIDAK tahu tentang :data.
+ * TIDAK ADA business logic atau UI di sini.
  *
- * Dependency graph:
- *   :app → :domain (:app import UseCase, Model)
- *   :app → :data   (:app import RepositoryImpl untuk DI)
- *   :data → :domain (:data implement interface domain)
- *   :domain → (nothing) — domain independent!
+ * Dependency:
+ *   AuthRepositoryImpl → dari :data
+ *   LoginUseCase       → dari :domain
+ *   LoginViewModel     → dari :presentation
+ *   LoginScreen        → dari :presentation
  */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Manual DI — wiring antar module
-        val authRepository = AuthRepositoryImpl()       // dari :data
-        val loginUseCase = LoginUseCase(authRepository)  // dari :domain
-        val loginViewModel = LoginViewModel(loginUseCase) // dari :app
+        // Manual DI — wiring 3 layer module
+        val authRepository = AuthRepositoryImpl()       // :data
+        val loginUseCase = LoginUseCase(authRepository)  // :domain
+        val loginViewModel = LoginViewModel(loginUseCase) // :presentation
 
         setContent {
             DemoCleanArchTheme {
-                LoginScreen(viewModel = loginViewModel)
+                LoginScreen(viewModel = loginViewModel)  // :presentation
             }
         }
     }
