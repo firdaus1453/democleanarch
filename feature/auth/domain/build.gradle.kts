@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -15,17 +14,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
     }
 }
 
-// Feature Auth Domain — domain layer KHUSUS untuk feature Auth
-// Hanya bergantung ke :core:common (shared utilities)
-// TIDAK bergantung ke feature lain!
 dependencies {
     implementation(project(":core:common"))
-
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
 }
